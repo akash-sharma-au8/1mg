@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const {
   newProduct,
   getProducts,
@@ -9,9 +8,16 @@ const {
   deleteProduct,
 } = require("../controllers/product");
 
-router.get("/getproducts", getProducts);
-router.post("/admin/product/create", newProduct);
+const { isUserAuthenticated,isUserAuthorized } = require("../Middlewares/auth");
+
+//get products/product
+router.get("/getproducts", isUserAuthenticated, getProducts);
 router.get("/getproduct/:id", getSingleProduct);
-router.put("/admin/updateproduct/:id", updateProduct);
-router.delete("/admin/deleteproduct/:id", deleteProduct);
+
+//add, delete, update
+router.post("/admin/product/create", isUserAuthenticated,isUserAuthorized('seller'), newProduct);
+
+router.put("/admin/updateproduct/:id", isUserAuthenticated, isUserAuthorized('seller'), updateProduct);
+
+router.delete("/admin/deleteproduct/:id", isUserAuthenticated,isUserAuthorized('seller') ,deleteProduct);
 module.exports = router;
