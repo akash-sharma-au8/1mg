@@ -10,6 +10,7 @@ app.use(cookieParser())
 // Routes
 const productRoutes = require('./routes/product')
 const authRoutes = require('./routes/auth')
+const orderRoutes = require('./routes/order')
 
 
 // Routing
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 })
 app.use('/api', productRoutes)
 app.use('/api',authRoutes)
+app.use('/api',orderRoutes)
 
 app.use(errorMiddleware)
 module.exports = app
