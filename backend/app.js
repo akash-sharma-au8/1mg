@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 
+
+const errorMiddleware = require('./Middlewares/error')
+
+
 app.use(express.json());
 
 // Routes
@@ -13,4 +17,5 @@ app.get('/', (req, res) => {
 })
 app.use('/api', productsRoute)
 
+app.use(errorMiddleware)
 module.exports = app
