@@ -69,3 +69,56 @@ exports.getUserProfile = async (req, res, next) => {
       user
   })
 }
+
+exports.updateProfile = async (req, res, next) => {
+  const newUserData = {
+      name: req.body.name,
+      email: req.body.email
+  }
+  
+  const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false
+})
+
+res.status(200).json({
+    success: true
+})
+}
+
+exports.updatePassword = async (req, res, next) => {
+  const user = await User.findById(req.user.id).select('+password');
+
+  // Check previous password
+  const isMatched = await user.comparePassword(req.body.oldPassword)
+  if (!isMatched) {
+      return next(new ErrorHandler('Old password is incorrect'),400);
+  }
+
+  user.password = req.body.password;
+  await user.save();
+
+  sendToken(user, 200, res)
+
+}
+
+//Get all users
+exports.getAllUsers =async (req, res, next) => {
+  const users = await User.find();
+
+  res.status(200).json({
+      success: true,
+      users
+  })
+} 
+
+exports.deleteUser = async (req, res, next) => {
+  const user = await User.findById(req.params.id);
+
+  await user.remove();
+
+  res.status(200).json({
+      success: true,
+  })
+}
