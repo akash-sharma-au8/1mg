@@ -1,5 +1,6 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandling");
+const Features = require("../utils/features");
 
 // Create a new product
 exports.newProduct = async (req, res, next) => {
@@ -13,8 +14,11 @@ exports.newProduct = async (req, res, next) => {
 
 // Get all products
 exports.getProducts = async (req, res) => {
-  const products = await Product.find();
+  // const products = await Product.find();
 
+  const apiFeatures = new Features(Product.find(), req.query).search().filter();
+
+  let products = await apiFeatures.query;
   res.status(200).json({
     success: true,
     count: products.length,

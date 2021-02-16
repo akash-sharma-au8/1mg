@@ -8,14 +8,16 @@ const errorMiddleware = require('./Middlewares/error')
 app.use(express.json());
 
 // Routes
-const productsRoute = require('./routes/product')
+const productRoutes = require('./routes/product')
+const authRoutes = require('./routes/auth')
 
 
 // Routing
 app.get('/', (req, res) => {
   res.status(200).json({ message: "Health check" })
 })
-app.use('/api', productsRoute)
+app.use('/api', productRoutes)
+app.use('/api',authRoutes)
 
 app.use(errorMiddleware)
 module.exports = app
