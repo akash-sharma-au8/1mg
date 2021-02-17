@@ -61,7 +61,7 @@ function App() {
 
   }, [])
 
-  const { user, isUserAuthenticated, loading } = useSelector(state => state.auth)
+  const { user, isAuthenticated, loading } = useSelector(state => state.auth)
 
   return (
     <Router>
@@ -99,7 +99,7 @@ function App() {
         
         <ProtectedRoute path="/admin/users" isAdmin={true} component={UsersList} exact />
 
-        {!loading && (!isUserAuthenticated || user.role !== 'seller') && (
+        {!loading && (!isAuthenticated || user.role !== 'seller') && (
           <Footer />
         )}
       </div>
