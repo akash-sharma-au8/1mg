@@ -99,7 +99,7 @@ function App() {
         
         <ProtectedRoute path="/admin/users" isAdmin={true} component={UsersList} exact />
 
-        {!loading && (!isUserAuthenticated || user.role !== 'selector') && (
+        {!loading && (!isUserAuthenticated || user.role !== 'seller') && (
           <Footer />
         )}
       </div>
