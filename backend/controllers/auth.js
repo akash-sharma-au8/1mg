@@ -1,11 +1,11 @@
 const User = require('../models/user');
 const sendToken = require('../utils/jwt');
 const ErrorHandler = require('../utils/errorHandling');
-
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const cloudinary = require('cloudinary');
 
 //Regsistering user
-exports.registerUser = async (req, res, next) => {
+exports.registerUser =  catchAsyncErrors(async (req, res, next) => {
 
   const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
     folder: 'avatars',
@@ -27,10 +27,10 @@ exports.registerUser = async (req, res, next) => {
   })
   
   sendToken(user, 200, res)
-}
+})
 
 // Login
-exports.loginUser = async (req, res, next) => {
+exports.loginUser =  catchAsyncErrors(async (req, res, next) => {
   const { email, password } = req.body;
 
   // Checks if email and password is entered by user
@@ -54,10 +54,10 @@ exports.loginUser = async (req, res, next) => {
 
   sendToken(user, 200, res)
  
-}
+})
 
 // Logout
-exports.logoutUser = async (req, res, next) => {
+exports.logoutUser =  catchAsyncErrors(async (req, res, next) => {
   res.cookie('token', null, {
       expires: new Date(Date.now()),
       httpOnly: true
@@ -68,17 +68,17 @@ exports.logoutUser = async (req, res, next) => {
       message: 'Logged out'
   })
 }
-
-exports.getUserProfile = async (req, res, next) => {
+)
+exports.getUserProfile =  catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id);
 
   res.status(200).json({
       success: true,
       user
   })
-}
+})
 
-exports.updateProfile = async (req, res, next) => {
+exports.updateProfile =  catchAsyncErrors(async (req, res, next) => {
   const newUserData = {
       name: req.body.name,
       email: req.body.email
@@ -112,13 +112,12 @@ exports.updateProfile = async (req, res, next) => {
 res.status(200).json({
     success: true
 })
-}
+})
 
-exports.updatePassword = async (req, res, next) => {
+exports.updatePassword =  catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.user.id).select('+password');
 
-  // Check previous password
-  const isMatched = await user.comparePassword(req.body.oldPassword)
+  const isMatched =  await user.comparePassword(req.body.oldPassword)
   if (!isMatched) {
       return next(new ErrorHandler('Old password is incorrect'),400);
   }
@@ -128,10 +127,9 @@ exports.updatePassword = async (req, res, next) => {
 
   sendToken(user, 200, res)
 
-}
-
+})
 //Get all users
-exports.getAllUsers =async (req, res, next) => {
+exports.getAllUsers =  catchAsyncErrors(async (req, res, next) => {
   const users = await User.find();
 
   res.status(200).json({
@@ -139,8 +137,8 @@ exports.getAllUsers =async (req, res, next) => {
       users
   })
 } 
-
-exports.deleteUser = async (req, res, next) => {
+)
+exports.deleteUser =  catchAsyncErrors(async (req, res, next) => {
   const user = await User.findById(req.params.id);
 
   await user.remove();
@@ -148,4 +146,4 @@ exports.deleteUser = async (req, res, next) => {
   res.status(200).json({
       success: true,
   })
-}
+})

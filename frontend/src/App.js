@@ -61,7 +61,7 @@ function App() {
 
   }, [])
 
-  const { user, isAuthenticated, loading } = useSelector(state => state.auth)
+  const { user, isUserAuthenticated, loading } = useSelector(state => state.auth)
 
   return (
     <Router>
@@ -89,7 +89,6 @@ function App() {
           <ProtectedRoute path="/password/update" component={UpdatePassword} exact />
 
           <ProtectedRoute path="/orders" component={ListOrders} exact />
-          {/* <ProtectedRoute path="/order/:id" component={OrderDetails} exact /> */}
         </div>
 
         <ProtectedRoute path="/dashboard" isAdmin={true} component={Dashboard} exact />
@@ -97,11 +96,10 @@ function App() {
         <ProtectedRoute path="/admin/product/create" isAdmin={true} component={NewProduct} exact />
         <ProtectedRoute path="/admin/updateproduct/:id" isAdmin={true} component={UpdateProduct} exact />
         <ProtectedRoute path="/admin/orders" isAdmin={true} component={OrdersList} exact />
-        {/* <ProtectedRoute path="/admin/order/:id" isAdmin={true} component={ProcessOrder} exact /> */}
+        
         <ProtectedRoute path="/admin/users" isAdmin={true} component={UsersList} exact />
-        {/* <ProtectedRoute path="/admin/user/:id" isAdmin={true} component={UpdateUser} exact /> */}
 
-        {!loading && (!isAuthenticated || user.role !== 'admin') && (
+        {!loading && (!isUserAuthenticated || user.role !== 'selector') && (
           <Footer />
         )}
       </div>

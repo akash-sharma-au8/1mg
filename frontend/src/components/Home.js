@@ -3,7 +3,7 @@ import Pagination from "react-js-pagination";
 
 import MetaData from "./layout/MetaData";
 import Product from "./product/Product";
-
+import Loader from "../components/layout/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { useAlert } from "react-alert";
 import { getProducts } from "../actions/productActions";
@@ -59,7 +59,7 @@ const Home = ({ match }) => {
   return (
     <>
       {loading ? (
-        <h2>Loading...</h2>
+        <Loader/>
       ) : (
         <>
           <MetaData title={"Buy Best Products Online"} />

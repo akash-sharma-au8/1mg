@@ -5,9 +5,10 @@ const cookieParser = require("cookie-parser");
 const bodyparser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const errorMiddleware = require("./Middlewares/error");
-
+const cors = require('cors')
 env.config()
 
+app.use(cors())
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -27,6 +28,8 @@ app.use("/api", productRoutes);
 app.use("/api", authRoutes);
 app.use("/api", orderRoutes);
 app.use("/api", paymentRoutes);
+
+
 
 app.use(errorMiddleware);
 module.exports = app;

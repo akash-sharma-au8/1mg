@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Carousel } from "react-bootstrap";
 import MetaData from "../layout/MetaData";
-
+import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails, clearErrors } from "../../actions/productActions";
@@ -52,7 +52,7 @@ const ProductDetails = ({ match }) => {
   return (
     <>
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader/>
       ) : (
         <>
           <MetaData title={product.name} />

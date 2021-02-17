@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import MetaData from "../layout/MetaData";
-
+import Loader from "../layout/Loader";
 import { useAlert } from "react-alert";
 import { useDispatch, useSelector } from "react-redux";
 import { login, clearErrors } from "../../actions/userActions";
@@ -38,7 +38,7 @@ const Login = ({ history, location }) => {
   return (
     <>
       {loading ? (
-        <h1>Loading...</h1>
+        <Loader/>
       ) : (
         <>
           <MetaData title={"Login"} />

@@ -1,78 +1,91 @@
-const Order = require('../models/order')
-const Product = require('../models/product')
-
-const ErrorHandler = require('../utils/errorHandling')
+const Order = require("../models/order");
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const ErrorHandler = require("../utils/errorHandling");
 
 // Create order
-exports.newOrder = async (req, res, next) => {
+exports.newOrder = catchAsyncErrors(async (req, res, next) => {
   const {
-      orderItems,
-      shippingInfo,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-      paymentInfo
-
+    orderItems,
+    shippingInfo,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+    paymentInfo,
   } = req.body;
 
   const order = await Order.create({
-      orderItems,
-      shippingInfo,
-      itemsPrice,
-      taxPrice,
-      shippingPrice,
-      totalPrice,
-      paymentInfo,
-      paidAt: Date.now(),
-      user: req.user._id
-  })
+    orderItems,
+    shippingInfo,
+    itemsPrice,
+    taxPrice,
+    shippingPrice,
+    totalPrice,
+    paymentInfo,
+    paidAt: Date.now(),
+    user: req.user._id,
+  });
 
   res.status(200).json({
-      success: true,
-      order
-  })
-}
+    success: true,
+    order,
+  });
+});
 
 //getsingleorder
-exports.getSingleOrder = async (req, res, next) => {
-    const order = await Order.findById(req.params.id).populate('user', 'name email')
+exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
+  const order = await Order.findById(req.params.id).populate(
+    "user",
+    "name email"
+  );
 
-    if (!order) {
-        return next(new ErrorHandler('No Order found with this ID', 404))
-    }
+  if (!order) {
+    return next(new ErrorHandler("No Order found with this ID", 404));
+  }
 
-    res.status(200).json({
-        success: true,
-        order
-    })
-}
+  res.status(200).json({
+    success: true,
+    order,
+  });
+});
 
-// Get logged in user orders 
-exports.Orders = async (req, res, next) => {
-    const orders = await Order.find({ user: req.user.id })
+// Get logged in user orders
+exports.Orders = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find({ user: req.user.id });
 
-    res.status(200).json({
-        success: true,
-        orders
-    })
-}
+  res.status(200).json({
+    success: true,
+    orders,
+  });
+});
 
 // Get all orders(Admin)
-exports.allOrders = async (req, res, next) => {
-    const orders = await Order.find()
+exports.allOrders = catchAsyncErrors(async (req, res, next) => {
+  const orders = await Order.find();
 
-    let totalAmount = 0;
+  let totalAmount = 0;
 
-    orders.forEach(order => {
-        totalAmount += order.totalPrice
-    })
+  orders.forEach((order) => {
+    totalAmount += order.totalPrice;
+  });
 
-    res.status(200).json({
-        success: true,
-        totalAmount,
-        orders
-    })
-}
+  res.status(200).json({
+    success: true,
+    totalAmount,
+    orders,
+  });
+});
 
+exports.deleteOrder = catchAsyncErrors(async (req, res, next) => {
+  const order = await Order.findById(req.params.id);
 
+  if (!order) {
+    return next(new ErrorHandler("No Order found with this ID", 404));
+  }
+
+  await order.remove();
+
+  res.status(200).json({
+    success: true,
+  });
+});

@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import MetaData from '../layout/MetaData'
+import Loader from '../layout/Loader'
 
 const Profile = () => {
 
@@ -9,7 +10,7 @@ const Profile = () => {
 
     return (
         <Fragment>
-            {loading ? <h1>Loading...</h1> : (
+            {loading ? <Loader/> : (
                 <Fragment>
                     <MetaData title={'Your Profile'} />
 

@@ -48,6 +48,7 @@ const ListOrders = () => {
                     field: 'status',
                     sort: 'asc'
                 },
+                
             ],
             rows: []
         }
@@ -56,10 +57,11 @@ const ListOrders = () => {
             data.rows.push({
                 id: order._id,
                 numOfItems: order.orderItems.length,
-                amount: `Rs.{order.totalPrice}`,
+                amount: `Rs.${order.totalPrice}`,
                 status: order.orderStatus && String(order.orderStatus).includes('Delivered')
                     ? <p style={{ color: 'green' }}>{order.orderStatus}</p>
                     : <p style={{ color: 'red' }}>{order.orderStatus}</p>,
+                
             })
         })
 

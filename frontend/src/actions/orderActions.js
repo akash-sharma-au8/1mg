@@ -28,7 +28,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.post('/api/order/new', order, config)
-
+        
         dispatch({
             type: CREATE_ORDER_SUCCESS,
             payload: data
@@ -87,26 +87,26 @@ export const allOrders = () => async (dispatch) => {
 }
 
 
-// Delete order
-export const deleteOrder = (id) => async (dispatch) => {
-    try {
+// // Delete order
+// export const deleteOrder = (id) => async (dispatch) => {
+//     try {
 
-        dispatch({ type: DELETE_ORDER_REQUEST })
+//         dispatch({ type: DELETE_ORDER_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/admin/order/${id}`)
+//         const { data } = await axios.delete(`/api/admin/order/${id}`)
 
-        dispatch({
-            type: DELETE_ORDER_SUCCESS,
-            payload: data.success
-        })
+//         dispatch({
+//             type: DELETE_ORDER_SUCCESS,
+//             payload: data.success
+//         })
 
-    } catch (error) {
-        dispatch({
-            type: DELETE_ORDER_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
+//     } catch (error) {
+//         dispatch({
+//             type: DELETE_ORDER_FAIL,
+//             payload: error.response.data.message
+//         })
+//     }
+// }
 
 
 // Clear Errors

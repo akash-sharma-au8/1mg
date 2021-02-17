@@ -1,10 +1,12 @@
 const Product = require("../models/product");
 const ErrorHandler = require("../utils/errorHandling");
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Features = require("../utils/features");
 const cloudinary = require('cloudinary')
 
+
 // Create a new product
-exports.newProduct = async (req, res, next) => {
+exports.newProduct = catchAsyncErrors(async (req, res, next) => {
   let images = []
     if (typeof req.body.images === 'string') {
         images.push(req.body.images)
@@ -35,10 +37,10 @@ exports.newProduct = async (req, res, next) => {
     success: true,
     product,
   });
-};
+});
 
 // Get all products
-exports.getProducts = async (req, res) => {
+exports.getProducts = catchAsyncErrors(async (req, res) => {
   // const products = await Product.find();
   const resPerPage = 4;
   const productsCount = await Product.countDocuments();
@@ -57,10 +59,10 @@ exports.getProducts = async (req, res) => {
     filteredProductsCount,
     products
   });
-};
+});
 
 // Get a single Product By Its :id
-exports.getSingleProduct = async (req, res, next) => {
+exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -71,19 +73,19 @@ exports.getSingleProduct = async (req, res, next) => {
     success: true,
     product,
   });
-};
+});
 
-exports.getAdminProducts = async (req, res, next) => {
+exports.getAdminProducts = catchAsyncErrors(async (req, res, next) => {
   const products = await Product.find();
 
   res.status(200).json({
     success: true,
     products,
   });
-};
+});
 
 // update product by its :id
-exports.updateProduct = async (req, res, next) => {
+exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -99,11 +101,11 @@ exports.updateProduct = async (req, res, next) => {
     success: true,
     product,
   });
-};
+});
 
 // delete a product by its :id
 
-exports.deleteProduct = async (req, res, next) => {
+exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
@@ -116,4 +118,4 @@ exports.deleteProduct = async (req, res, next) => {
     success: true,
     message: "Product successfully deleted",
   });
-};
+});
