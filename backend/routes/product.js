@@ -6,14 +6,16 @@ const {
   getSingleProduct,
   updateProduct,
   deleteProduct,
+  getAdminProducts,
 } = require("../controllers/product");
 
 const { isUserAuthenticated,isUserAuthorized } = require("../Middlewares/auth");
 
 //get products/product
-router.get("/getproducts", isUserAuthenticated, getProducts);
+router.get("/getproducts", getProducts);
 router.get("/getproduct/:id", getSingleProduct);
 
+router.get('/admin/products',getAdminProducts);
 //add, delete, update
 router.post("/admin/product/create", isUserAuthenticated,isUserAuthorized('seller'), newProduct);
 

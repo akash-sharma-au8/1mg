@@ -2,18 +2,26 @@ const User = require('../models/user');
 const sendToken = require('../utils/jwt');
 const ErrorHandler = require('../utils/errorHandling');
 
+const cloudinary = require('cloudinary');
+
 //Regsistering user
 exports.registerUser = async (req, res, next) => {
 
-  const { name, email, password, role } = req.body;
+  const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+    folder: 'avatars',
+    width: 150,
+    crop: "scale"
+})
+
+  const { name, email, password ,role} = req.body;
 
   const user = await User.create({
     name,
     email,
     password,
     avatar: {
-      public_id: 1,
-      url: 'https://www.google.com/imgres?imgurl=https%3A%2F%2Fwallpapercave.com%2Fwp%2Fwp4540682.jpg&imgrefurl=https%3A%2F%2Fwallpapercave.com%2Fprofile-pictures-wallpapers&tbnid=F6Jj4D3Hg2_L6M&vet=12ahUKEwiA4Ly9qO7uAhUIGnIKHRXKA3QQMygAegUIARDZAQ..i&docid=714nUljS_EVtmM&w=1000&h=1250&q=profile%20pics&ved=2ahUKEwiA4Ly9qO7uAhUIGnIKHRXKA3QQMygAegUIARDZAQ'
+      public_id: result.public_id,
+      url: result.secure_url
     },
     role
   })
@@ -76,6 +84,25 @@ exports.updateProfile = async (req, res, next) => {
       email: req.body.email
   }
   
+  //update profilepic
+  if (req.body.avatar !== '') {
+    const user = await User.findById(req.user.id)
+
+    const image_id = user.avatar.public_id;
+    const res = await cloudinary.v2.uploader.destroy(image_id);
+
+    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+      folder: 'avatars',
+      width: 150,
+      crop: "scale"
+    })
+
+    newUserData.avatar = {
+      public_id: result.public_id,
+      url: result.secure_url
+    }
+  }
+
   const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
     new: true,
     runValidators: true,
