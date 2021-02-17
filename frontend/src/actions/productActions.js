@@ -23,12 +23,12 @@ import {
 
 } from '../constants/productConstants'
 
-export const getProducts = (keyword = '', currentPage = 1, category,rating=0) => async (dispatch) => {
+export const getProducts = (keyword = '', currentPage, category,rating) => async (dispatch) => {
     try {
 
         dispatch({ type: ALL_PRODUCTS_REQUEST })
 
-        let link = `/api/getproducts?keyword=${keyword}`
+        let link = `/api/getproducts?keyword=${keyword}&page=${currentPage}&ratings[gte]=${rating}`
 
         if (category) {
             link = `/api/getproducts?keyword=${keyword}&category=${category}`

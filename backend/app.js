@@ -1,12 +1,12 @@
 const express = require("express");
 const app = express();
-const env = require("dotenv");
 const cookieParser = require("cookie-parser");
 const bodyparser = require("body-parser");
 const fileUpload = require("express-fileupload");
 const errorMiddleware = require("./Middlewares/error");
 const cors = require('cors')
-env.config()
+
+
 
 app.use(cors())
 app.use(express.json());

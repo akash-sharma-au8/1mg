@@ -1,4 +1,4 @@
-import React, {Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import Pagination from "react-js-pagination";
 
 import MetaData from "./layout/MetaData";
@@ -14,14 +14,14 @@ const Home = ({ match }) => {
   const [rating, setRating] = useState(0);
 
   const categories = [
-    "Liquid",
+    "Surgicals",
     "Tablet",
     "Capsules",
     "Drops",
     "Inhalers",
     "Injections",
-    "Topical medicines",
-    "Implants or patches",
+    "Pain Relief",
+    "Wellness",
   ];
 
   const alert = useAlert();
@@ -35,8 +35,7 @@ const Home = ({ match }) => {
     resPerPage,
     filteredProductsCount,
   } = useSelector((state) => state.products);
-  
-  console.log(products)
+
   const keyword = match.params.keyword;
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const Home = ({ match }) => {
   return (
     <>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
           <MetaData title={"Buy Best Products Online"} />
@@ -130,7 +129,7 @@ const Home = ({ match }) => {
                   </div>
                 </Fragment>
               ) : (
-                    products.map((product) => (
+                products.map((product) => (
                   <Product key={product._id} product={product} col={3} />
                 ))
               )}

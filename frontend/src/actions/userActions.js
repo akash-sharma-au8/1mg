@@ -141,10 +141,9 @@ export const updatePassword = (passwords) => async (dispatch) => {
         }
 
         const { data } = await axios.put('/api/password/update', passwords, config)
-
         dispatch({
             type: UPDATE_PASSWORD_SUCCESS,
-            payload: data.success
+            payload: data
         })
 
     } catch (error) {

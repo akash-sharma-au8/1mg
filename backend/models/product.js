@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
     },
     ratings: {
         type: Number,
-        default: 0
+        default: 4.5
     },
     images: [
         {
@@ -38,14 +38,14 @@ const productSchema = new mongoose.Schema({
         required: [true, 'Please select category for this product'],
         enum: {
             values: [
-                'Liquid',
+                'Surgicals',
                 'Tablet',
                 'Capsules',
                 'Drops',
                 'Inhalers',
                 'Injections',
-                "Topical medicines",
-                'Implants or patches',
+                "Pain Relief",
+                'Wellness',
             ],
             message: 'Please select correct category for product'
         }
@@ -62,7 +62,7 @@ const productSchema = new mongoose.Schema({
     },
     numOfReviews: {
         type: Number,
-        default: 0
+        default: 32
     },
     
     user: {

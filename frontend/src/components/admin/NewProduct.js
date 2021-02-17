@@ -19,14 +19,14 @@ const NewProduct = ({ history }) => {
   const [imagesPreview, setImagesPreview] = useState([]);
 
   const categories = [
-    "Liquid",
+    "Surgicals",
     "Tablet",
     "Capsules",
     "Drops",
     "Inhalers",
     "Injections",
-    "Topical medicines",
-    "Implants or patches",
+    "Pain Relief",
+    "Wellness",
   ];
 
   const alert = useAlert();
@@ -196,7 +196,7 @@ const NewProduct = ({ history }) => {
                       key={img}
                       alt="Images Preview"
                       className="mt-3 mr-2"
-                      width="100"
+                      width="55"
                       height="52"
                     />
                   ))}

@@ -22,7 +22,7 @@ class Features {
     const queryCopy = { ...this.queryStr };
 
     // Removing fields from the query
-    const removeFields = ["keyword"];
+    const removeFields = ["keyword","limit","page"];
     removeFields.forEach((el) => delete queryCopy[el]);
 
     // Filter for Price, Ratings
