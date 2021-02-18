@@ -1,7 +1,7 @@
 const User = require('../models/user');
 const sendToken = require('../utils/jwt');
 const ErrorHandler = require('../utils/errorHandling');
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const catchAsyncErrors = require('../Middlewares/catchAsyncErrors');
 const cloudinary = require('cloudinary');
 
 //Regsistering user
