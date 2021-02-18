@@ -12,7 +12,7 @@ const {
 const {
   isUserAuthenticated,
   isUserAuthorized,
-} = require("../middlewares/auth");
+} = require("../Middlewares/auth");
 
 router.post("/order/new", isUserAuthenticated, newOrder);
 router.get("/order/:id", isUserAuthenticated, getSingleOrder);
